@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle} from 'reactstrap';
 
 class Directory extends Component {
     constructor(props) {
@@ -10,10 +11,13 @@ class Directory extends Component {
     render() {
         const directory = this.props.campsites.map(campsite =>{
             return (
-                <div className="col">
-                    <img src={campsite.image} alt={campsite.name} />
-                    <h2>{campsite.name}</h2>
-                    <p>{campsite.description}</p>
+                <div key={campsite.id} className="col-md-5 m-1">
+                    <Card>
+                        <CardImg width="100%" src={campsite.image} alt={campsite.name} />
+                        <CardImgOverlay>
+                            <CardTitle>{campsite.name}</CardTitle>
+                        </CardImgOverlay>
+                    </Card>
                 </div>
             );
         });
