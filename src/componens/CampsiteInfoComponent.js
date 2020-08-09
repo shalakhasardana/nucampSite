@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
 
 class CampsiteInfo extends Component {
@@ -26,7 +26,7 @@ class CampsiteInfo extends Component {
         <div className="col-md-5 m-1">
           <h4>Comments Inside it</h4>
           {comments.map((comment) => (
-            <>
+            <Fragment key={comment.key}>
               <p>{comment.text}</p>
               <p>
                 {comment.author} - {""}{" "}
@@ -36,7 +36,7 @@ class CampsiteInfo extends Component {
                   day: "2-digit",
                 }).format(new Date(Date.parse(comment.date)))}
               </p>
-            </>
+            </Fragment>
           ))}
         </div>
       );
