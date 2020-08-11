@@ -27,7 +27,7 @@ class Main extends Component {
         </Navbar>
         <Directory
           campsites={this.state.campsites}
-          onClick={(campsiteId) => this.onCampsiteSelect(campsiteId)}
+          onClick
         />
         <CampsiteInfo
           campsite={
