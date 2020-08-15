@@ -4,6 +4,7 @@ import Directory from "./DirectoryComponent";
 import CampsiteInfo from "./CampsiteInfoComponent";
 import { CAMPSITES } from "../shared/campsites";
 import Header from "./HeaderComponents";
+import About from "./AboutUsComponent";
 import Footer from "./FooterComponent";
 import Home from "./HomeComponents";
 import Contact from "./ContactComponent";
@@ -24,7 +25,7 @@ class Main extends Component {
   }
 
   render() {
-    console.log("campsiteMain" + this.state.campsites);
+    console.log("partnersMain" + this.state.partners);
     const HomePage = () => {
       return (
         <Home
@@ -65,7 +66,11 @@ class Main extends Component {
             render={() => <Directory campsites={this.state.campsites} />}
           />
           <Route path="/directory/:campsiteId" component={CampsiteWithId} />
-          <Route exact path="/contactus" component={Contact} />
+          <Route path="/contactus" component={Contact} />
+          <Route
+            path="/aboutus"
+            render={() => <About partners={this.state.partners} />}
+          />
           <Redirect to="/home" />
         </Switch>
         <Footer />
