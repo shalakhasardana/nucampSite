@@ -22,7 +22,6 @@ const mapStateToProps = (state) => {
 
 class Main extends Component {
   render() {
-    console.log("partnersMain" + this.state.partners);
     const HomePage = () => {
       return (
         <Home
