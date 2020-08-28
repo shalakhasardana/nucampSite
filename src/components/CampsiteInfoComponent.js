@@ -43,8 +43,8 @@ class CommentForm extends Component {
     this.props.addComment(
       this.props.campsiteId,
       values.rating,
-      values.author,
-      values.text
+      values.yourName,
+      values.comment
     );
   }
 
@@ -84,13 +84,13 @@ class CommentForm extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
-                <Label htmlFor="name" md={2}>
+                <Label htmlFor="yourName" md={2}>
                   Name
                 </Label>
                 <Col md={10}>
                   <Control.text
-                    model=".name"
-                    name="name"
+                    model=".yourName"
+                    name="yourName"
                     className="form-control"
                     validators={{
                       required,
@@ -100,7 +100,7 @@ class CommentForm extends Component {
                   />
                   <Errors
                     className="text-danger"
-                    model=".name"
+                    model="yourName"
                     component="div"
                     messages={{
                       required: "Required",
@@ -162,7 +162,7 @@ function RenderComments({ comments, addComment, campsiteId }) {
           <div key={comment.key}>
             <p>{comment.text}</p>
             <p>
-              {comment.author} - {""}{" "}
+              {comment.yourName} - {""}{" "}
               {new Intl.DateTimeFormat("en-US", {
                 year: "numeric",
                 month: "short",
