@@ -8,9 +8,10 @@ import About from "./AboutUsComponent";
 import Footer from "./FooterComponent";
 import Home from "./HomeComponents";
 import Contact from "./ContactComponent";
-import { addComment } from "../redux/ActionCreators";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { addComment, fetchCampsites } from "../redux/ActionCreators";
+import { actions } from "react-redux-form";
 
 const mapStateToProps = (state) => {
   return {
@@ -24,16 +25,26 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   addComment: (campsiteId, rating, author, text) =>
     addComment(campsiteId, rating, author, text),
+  fetchCampsites: () => fetchCampsites(),
 };
 
 class Main extends Component {
+  // Life cycleMethods-wheneverr crud methods happens,it is call just like render
+  componentDidMount() {
+    this.props.fetchCampsites();
+  }
+
   render() {
     const HomePage = () => {
       return (
         <Home
           campsite={
-            this.props.campsites.filter((campsite) => campsite.featured)[0]
+            this.props.campsites.campsites.filter(
+              (campsite) => campsite.featured
+            )[0]
           }
+          campsitesLoading={this.props.campsites.isLoading}
+          campsitesErrMess={this.props.campsites.errMess}
           promotion={
             this.props.promotions.filter((promotion) => promotion.featured)[0]
           }
@@ -46,10 +57,12 @@ class Main extends Component {
       return (
         <CampsiteInfo
           campsite={
-            this.props.campsites.filter(
+            this.props.campsites.campsites.filter(
               (campsite) => campsite.id === +match.params.campsiteId
             )[0]
           }
+          isLoading={this.props.campsites.isLoading}
+          errMess={this.props.campsites.errMess}
           comments={this.props.comments.filter(
             (comment) => comment.campsiteId === +match.params.campsiteId
           )}
