@@ -26,6 +26,7 @@ const mapDispatchToProps = {
   addComment: (campsiteId, rating, author, text) =>
     addComment(campsiteId, rating, author, text),
   fetchCampsites: () => fetchCampsites(),
+  resetFeedbackForm: () => actions.reset("feedbackForm"),
 };
 
 class Main extends Component {
@@ -86,6 +87,13 @@ class Main extends Component {
             exact
             path="/aboutus"
             render={() => <About partners={this.props.partners} />}
+          />
+          <Route
+            exact
+            path="/contactus"
+            render={() => (
+              <Contact resetFeedbackForm={this.props.resetFeedbackForm} />
+            )}
           />
           <Redirect to="/home" />
         </Switch>
