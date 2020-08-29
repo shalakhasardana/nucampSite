@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Navbar, NavbarBrand } from "reactstrap";
 import Directory from "./DirectoryComponent";
 import CampsiteInfo from "./CampsiteInfoComponent";
+import { CAMPSITES } from "../shared/campsites";
 import Header from "./HeaderComponents";
 import About from "./AboutUsComponent";
 import Footer from "./FooterComponent";
@@ -14,13 +15,12 @@ import {
   fetchCampsites,
   fetchComments,
   fetchPromotions,
-  postComment,
   fetchPartners,
+  postFeedback,
+  postComment,
 } from "../redux/ActionCreators";
-
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { actions } from "react-redux-form";
-
 const mapStateToProps = (state) => {
   return {
     campsites: state.campsites,
@@ -29,7 +29,6 @@ const mapStateToProps = (state) => {
     promotions: state.promotions,
   };
 };
-
 const mapDispatchToProps = {
   addComment: (campsiteId, rating, yourName, text) =>
     addComment(campsiteId, rating, yourName, text),
@@ -37,26 +36,20 @@ const mapDispatchToProps = {
   resetFeedbackForm: () => actions.reset("feedbackForm"),
   fetchComments: () => fetchComments(),
   fetchPromotions: () => fetchPromotions(),
+  fetchPartners: () => fetchPartners(),
   postComment: (campsiteId, rating, author, text) =>
     postComment(campsiteId, rating, author, text),
-  fetchPartners: () => fetchPartners(),
+  postFeedback: (values) => postFeedback(values),
 };
-
 class Main extends Component {
-  // Life cycleMethods-wheneverr crud methods happens,it is call just like render
+  // Life cycleMethods-whenever crud methods happens,it is call just like render
   componentDidMount() {
     this.props.fetchCampsites();
     this.props.fetchComments();
     this.props.fetchPromotions();
     this.props.fetchPartners();
-    console.log(this.props.partners);
   }
-
   render() {
-    console.log(
-      "render partners" + JSON.stringify(this.props.partners.partners)
-    );
-    console.log(this.props.partners.partners);
     const HomePage = () => {
       return (
         <Home
@@ -84,7 +77,6 @@ class Main extends Component {
         />
       );
     };
-
     const CampsiteWithId = ({ match }) => {
       return (
         <CampsiteInfo
@@ -124,7 +116,10 @@ class Main extends Component {
                 exact
                 path="/contactus"
                 render={() => (
-                  <Contact resetFeedbackForm={this.props.resetFeedbackForm} />
+                  <Contact
+                    postFeedback={this.props.postFeedback}
+                    resetFeedbackForm={this.props.resetFeedbackForm}
+                  />
                 )}
               />
               <Route
@@ -141,5 +136,4 @@ class Main extends Component {
     );
   }
 }
-
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
