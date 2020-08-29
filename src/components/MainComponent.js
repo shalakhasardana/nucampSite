@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Navbar, NavbarBrand } from "reactstrap";
 import Directory from "./DirectoryComponent";
 import CampsiteInfo from "./CampsiteInfoComponent";
-import { CAMPSITES } from "../shared/campsites";
 import Header from "./HeaderComponents";
 import About from "./AboutUsComponent";
 import Footer from "./FooterComponent";
@@ -16,6 +15,7 @@ import {
   fetchComments,
   fetchPromotions,
   postComment,
+  fetchPartners,
 } from "../redux/ActionCreators";
 
 import { TransitionGroup, CSSTransition } from "react-transition-group";
@@ -39,6 +39,7 @@ const mapDispatchToProps = {
   fetchPromotions: () => fetchPromotions(),
   postComment: (campsiteId, rating, author, text) =>
     postComment(campsiteId, rating, author, text),
+  fetchPartners: () => fetchPartners(),
 };
 
 class Main extends Component {
@@ -47,9 +48,15 @@ class Main extends Component {
     this.props.fetchCampsites();
     this.props.fetchComments();
     this.props.fetchPromotions();
+    this.props.fetchPartners();
+    console.log(this.props.partners);
   }
 
   render() {
+    console.log(
+      "render partners" + JSON.stringify(this.props.partners.partners)
+    );
+    console.log(this.props.partners.partners);
     const HomePage = () => {
       return (
         <Home
@@ -67,7 +74,13 @@ class Main extends Component {
           }
           promotionLoading={this.props.promotions.isLoading}
           promotionErrMess={this.props.promotions.errMess}
-          partner={this.props.partners.filter((partner) => partner.featured)[0]}
+          partner={
+            this.props.partners.partners.filter(
+              (partner) => partner.featured
+            )[0]
+          }
+          partnerLoading={this.props.partners.isLoading}
+          partnerErrMess={this.props.partners.errMess}
         />
       );
     };
