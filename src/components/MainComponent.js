@@ -10,7 +10,13 @@ import Home from "./HomeComponents";
 import Contact from "./ContactComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addComment, fetchCampsites } from "../redux/ActionCreators";
+import {
+  addComment,
+  fetchCampsites,
+  fetchComments,
+  fetchPromotions,
+} from "../redux/ActionCreators";
+
 import { actions } from "react-redux-form";
 
 const mapStateToProps = (state) => {
@@ -27,12 +33,16 @@ const mapDispatchToProps = {
     addComment(campsiteId, rating, yourName, text),
   fetchCampsites: () => fetchCampsites(),
   resetFeedbackForm: () => actions.reset("feedbackForm"),
+  fetchComments: () => fetchComments(),
+  fetchPromotions: () => fetchPromotions(),
 };
 
 class Main extends Component {
   // Life cycleMethods-wheneverr crud methods happens,it is call just like render
   componentDidMount() {
     this.props.fetchCampsites();
+    this.props.fetchComments();
+    this.props.fetchPromotions();
   }
 
   render() {
@@ -47,8 +57,12 @@ class Main extends Component {
           campsitesLoading={this.props.campsites.isLoading}
           campsitesErrMess={this.props.campsites.errMess}
           promotion={
-            this.props.promotions.filter((promotion) => promotion.featured)[0]
+            this.props.promotions.promotions.filter(
+              (promotion) => promotion.featured
+            )[0]
           }
+          promotionLoading={this.props.promotions.isLoading}
+          promotionErrMess={this.props.promotions.errMess}
           partner={this.props.partners.filter((partner) => partner.featured)[0]}
         />
       );
